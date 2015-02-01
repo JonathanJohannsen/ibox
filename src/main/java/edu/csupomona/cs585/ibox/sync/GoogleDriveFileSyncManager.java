@@ -10,17 +10,20 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 
-public class GoogleDriveFileSyncManager implements FileSyncManager {
+public class GoogleDriveFileSyncManager implements FileSyncManager 
+{
 
 	//Google Drive service
 	public Drive service;
 
-	public GoogleDriveFileSyncManager(Drive service) {
+	public GoogleDriveFileSyncManager(Drive service) 
+	{
 		this.service = service;
 	}
 
 	@Override
-	public void addFile(java.io.File localFile) throws IOException {
+	public void addFile(java.io.File localFile) throws IOException 
+	{
 		//Insert a file
 		File body = new File();
 		body.setTitle(localFile.getName());
@@ -30,11 +33,15 @@ public class GoogleDriveFileSyncManager implements FileSyncManager {
 	}
 
 	@Override
-	public void updateFile(java.io.File localFile) throws IOException {
+	public void updateFile(java.io.File localFile) throws IOException 
+	{
 		String fileId = getFileId(localFile.getName());
-		if (fileId == null) {
+		if (fileId == null) 
+		{
 			addFile(localFile);
-		} else {
+		} 
+		else 
+		{
 			File body = new File();
 			body.setTitle(localFile.getName());
 			FileContent mediaContent = new FileContent("*/*", localFile);
@@ -44,28 +51,37 @@ public class GoogleDriveFileSyncManager implements FileSyncManager {
 	}
 
 	@Override
-	public void deleteFile(java.io.File localFile) throws IOException {
+	public void deleteFile(java.io.File localFile) throws IOException 
+	{
 		String fileId = getFileId(localFile.getName());
-		if (fileId == null) {
+		if (fileId == null) 
+		{
 			throw new FileNotFoundException();
-		} else {
+		} 
+		else 
+		{
 			service.files().delete(fileId).execute();
 		}
 	}
 
-	public String getFileId(String fileName) {
-		try {
+	public String getFileId(String fileName) 
+	{
+		try 
+		{
 			List request = service.files().list();
 			FileList files = request.execute();
-			for(File file : files.getItems()) {
-				if (file.getTitle().equals(fileName)) {
+			for(File file : files.getItems()) 
+			{
+				if (file.getTitle().equals(fileName)) 
+				{
 					return file.getId();
 				}
 			}
-		} catch (IOException e) {
+		} 
+		catch (IOException e)
+		{
 			System.out.println("An error occurred: " + e);
 		}
 		return null;
 	}
-
 }

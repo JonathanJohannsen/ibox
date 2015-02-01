@@ -15,33 +15,41 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 
-public class GoogleDriveServiceProvider {
+public class GoogleDriveServiceProvider 
+{
 
-	private static String CLIENT_ID = "PASTE_YOUR_CLIENT_ID_HERE";
-	private static String CLIENT_SECRET = "PASTE_YOUR_CLIENT_SECRET_HERE";
+	private static String CLIENT_ID = "670512217317-l6fmd6bc6ok2j281vfebqpmhucdq8i9a.apps.googleusercontent.com";
+	private static String CLIENT_SECRET = "yuEw1N6KQ66kO07EEY2AK97i";
 
 	private static String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 
 	private static GoogleDriveServiceProvider INSTANCE;
 	private Drive googleDriveClient;
 
-	private GoogleDriveServiceProvider() {
-		try {
+	private GoogleDriveServiceProvider() 
+	{
+		try 
+		{
 			initGoogleDriveServices();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			System.out.println("Failed to create the Google drive client. Please check your Internet connection and your Google credentials.");
 			e.printStackTrace();
 		}
 	}
 
-	public static GoogleDriveServiceProvider get() {
-		if (INSTANCE == null) {
+	public static GoogleDriveServiceProvider get() 
+	{
+		if (INSTANCE == null) 
+		{
 			INSTANCE = new GoogleDriveServiceProvider();
 		}
 		return INSTANCE;
 	}
 
-	public void initGoogleDriveServices() throws IOException {
+	public void initGoogleDriveServices() throws IOException 
+	{
 		HttpTransport httpTransport = new NetHttpTransport();
 		JsonFactory jsonFactory = new JacksonFactory();
 
@@ -63,7 +71,8 @@ public class GoogleDriveServiceProvider {
 		googleDriveClient = new Drive.Builder(httpTransport, jsonFactory, credential).build();
 	}
 
-	public Drive getGoogleDriveClient() {
+	public Drive getGoogleDriveClient() 
+	{
 		return googleDriveClient;
 	}
 }
